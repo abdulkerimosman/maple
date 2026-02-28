@@ -42,6 +42,17 @@ const TiktokGallery = () => {
                         ></iframe>
                     </div>
 
+                    {/* Video 3 */}
+                    <div className="tiktok-card">
+                        <iframe
+                            src="https://www.tiktok.com/embed/v2/7600092601894571284"
+                            className="tiktok-iframe"
+                            allow="encrypted-media;"
+                            title="TikTok Video"
+                            scrolling="no"
+                        ></iframe>
+                    </div>
+
                 </div>
             </div>
 
@@ -76,9 +87,9 @@ const TiktokGallery = () => {
                 }
                 .tiktok-grid {
                     display: grid;
-                    grid-template-columns: repeat(2, 1fr);
+                    grid-template-columns: repeat(3, 1fr);
                     gap: 2rem;
-                    max-width: 1000px; /* Reduced max width for 2 columns */
+                    max-width: 1400px;
                     margin: 0 auto;
                     padding: 0 1rem;
                     justify-items: center;
@@ -89,6 +100,7 @@ const TiktokGallery = () => {
                     height: 720px; /* Slightly taller to accommodate the wider aspect ratio of the iframe */
                     border-radius: 12px;
                     overflow: hidden;
+                    background: transparent;
                     transition: transform 0.3s ease;
                 }
                 .tiktok-card:hover {
@@ -102,7 +114,7 @@ const TiktokGallery = () => {
                 }
 
                 /* Responsive Grid */
-                @media (max-width: 1200px) {
+                @media (max-width: 1100px) {
                     .tiktok-grid {
                         grid-template-columns: repeat(2, 1fr);
                     }

@@ -1,5 +1,28 @@
 import { Instagram, MapPin, Phone, Clock } from 'lucide-react';
 import logoWhite from '../assets/maple-logo-white.png';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+// Custom orange pin icon matching the site theme
+const themedIcon = L.divIcon({
+  className: '',
+  html: `
+    <div style="position:relative; display:flex; flex-direction:column; align-items:center;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 36" width="36" height="54"
+           style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));">
+        <path d="M12 0C7.589 0 4 3.589 4 8c0 6.5 8 18 8 18s8-11.5 8-18c0-4.411-3.589-8-8-8z"
+              fill="#F56C0A" stroke="white" stroke-width="1.5"/>
+        <circle cx="12" cy="8" r="3.5" fill="white" opacity="0.9"/>
+      </svg>
+      <div style="width:14px;height:14px;border-radius:50%;background:#F56C0A;opacity:0.35;margin-top:-4px;
+                  animation: pulse-map-pin 1.8s ease-out infinite;"></div>
+    </div>
+  `,
+  iconSize: [36, 54],
+  iconAnchor: [18, 54],
+  popupAnchor: [0, -54],
+});
 
 const Footer = () => {
   return (
@@ -31,16 +54,19 @@ const Footer = () => {
         {/* Column 2: The Map (Tile Style) */}
         <div className="footer-map">
           <div className="map-frame">
-            <iframe
-              width="100%"
-              frameBorder="0"
-              scrolling="no"
-              marginHeight="0"
-              marginWidth="0"
-              src="https://www.openstreetmap.org/export/embed.html?bbox=38.7558%2C8.9677%2C38.7958%2C9.0077&amp;layer=transportmap&amp;marker=8.9877%2C38.7758"
-              style={{ border: 'none', height: '100%' }}
-              title="Maple Cafe Location"
-            ></iframe>
+            <MapContainer
+              center={[8.9877, 38.7758]}
+              zoom={15}
+              scrollWheelZoom={true}
+              style={{ width: '100%', height: '100%' }}
+              zoomControl={true}
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              />
+              <Marker position={[8.9877, 38.7758]} icon={themedIcon} />
+            </MapContainer>
           </div>
           <a href="https://maps.app.goo.gl/N73KpnQdD2Utj6NTA" target="_blank" rel="noreferrer" className="google-maps-link">
             <MapPin size={16} /> Open in Google Maps
@@ -181,24 +207,23 @@ const Footer = () => {
             overflow: hidden;
             box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             border: none;
+            position: relative;
         }
         
-        .map-frame iframe {
-            border-radius: 8px; /* Inner radius */
-            filter: brightness(1.05) contrast(1.1) saturate(0.8) hue-rotate(10deg);
-            transition: filter 0.4s ease;
+
+        @keyframes pulse-map-pin {
+            0%   { transform: scale(1);   opacity: 0.35; }
+            70%  { transform: scale(2.5); opacity: 0; }
+            100% { transform: scale(2.5); opacity: 0; }
         }
-        
-        .map-frame:hover iframe {
-            filter: brightness(1.0) contrast(1.1) saturate(1.0) hue-rotate(0deg); 
-        }
+
 
         .footer-bottom {
           text-align: center;
           padding-top: 2rem;
           border-top: 1px solid rgba(250, 250, 248, 0.1);
           color: rgba(250, 250, 248, 0.5);
-          font-size: 0.9rem;
+          font-size: 0.75rem;
         }
 
         @media (min-width: 768px) {
